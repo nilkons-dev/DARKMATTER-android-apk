@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
 
         val cm = CookieManager.getInstance()
         cm.setAcceptCookie(true)
-        cm.setAcceptThirdPartyCookie(web, true)
+        cm.setAcceptThirdPartyCookies(web, true)
         web.settings.javaScriptEnabled = true
         web.settings.domStorageEnabled = true
         web.settings.userAgentString = Ua.clean(web.settings.userAgentString)

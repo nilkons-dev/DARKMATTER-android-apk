@@ -166,7 +166,7 @@ class BotService : Service() {
         val wv = WebView(applicationContext)
         val cm = CookieManager.getInstance()
         cm.setAcceptCookie(true)
-        cm.setAcceptThirdPartyCookie(wv, true)
+        cm.setAcceptThirdPartyCookies(wv, true)
         wv.settings.javaScriptEnabled = true
         wv.settings.domStorageEnabled = true
         wv.settings.userAgentString = Ua.clean(wv.settings.userAgentString)
