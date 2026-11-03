@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>DARKMATTER</title>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><span class="name">DARKMATTER</span></div>
+  <div id="pill" class="pill off"><i></i><span id="pillText">Offline</span></div>
+</header>
+
+<main id="main">
+  <!-- HOME -->
+  <section id="tab-home" class="tab active">
+    <div class="card">
+      <div class="row between">
+        <div>
+          <div class="label">Quotex connection</div>
+          <div id="linkText" class="big">Not connected</div>
+          <div id="linkSub" class="muted small"></div>
+        </div>
+        <div class="right">
+          <div class="label">Balance</div>
+          <div id="balance" class="big mono">-</div>
+        </div>
+      </div>
+      <div id="linkError" class="alert bad hidden"></div>
+      <div class="row gap" style="margin-top:14px">
+        <button id="btnConnect" class="btn primary grow">Connect</button>
+        <button id="btnLogin" class="btn grow">Log in</button>
+      </div>
+    </div>
+
+    <div id="sessionCard" class="card hidden">
+      <div class="row between">
+        <div class="label">Live session</div>
+        <div id="sessState" class="chip good">RUNNING</div>
+      </div>
+      <div class="stats">
+        <div><div id="stWins" class="num good-t">0</div><div class="label">Wins</div></div>
+        <div><div id="stLoss" class="num bad-t">0</div><div class="label">Losses</div></div>
+        <div><div id="stPct" class="num">-</div><div class="label">Win rate</div></div>
+        <div><div id="stSig" class="num">0</div><div class="label">Signals</div></div>
+      </div>
+      <div id="tradeBox" class="trade hidden"></div>
+      <div class="muted small" id="sessInfo"></div>
+      <div class="row gap" style="margin-top:14px">
+        <button id="btnPartial" class="btn grow">Current result</button>
+        <button id="btnStop" class="btn danger grow">Stop</button>
+      </div>
+    </div>
+
+    <div id="startCard" class="card">
+      <div class="row between">
+        <div>
+          <div class="label">Live signals</div>
+          <div id="startInfo" class="big">No markets selected</div>
+        </div>
+        <button id="btnPick" class="btn small-btn">Markets</button>
+      </div>
+      <div id="engineError" class="alert bad hidden"></div>
+      <button id="btnStart" class="btn primary block" style="margin-top:14px" disabled>Start signals</button>
+    </div>
+
+    <div id="lastCard" class="card hidden">
+      <div class="label">Last session</div>
+      <div id="lastText" class="big"></div>
+    </div>
+
+    <div class="card">
+      <div class="row between"><div class="label">Recent signals</div></div>
+      <div id="feed" class="feed"><div class="empty">Signals and results appear here.</div></div>
+    </div>
+  </section>
+
+  <!-- MARKETS -->
+  <section id="tab-markets" class="tab">
+    <div class="card tight">
+      <input id="mSearch" class="input" type="search" placeholder="Search pair" autocomplete="off">
+      <div class="seg" id="mKind">
+        <button data-k="all" class="on">All</button><button data-k="live">Live</button><button data-k="otc">OTC</button>
+      </div>
+      <div class="row between" style="margin-top:10px">
+        <div id="mCount" class="muted small">0 selected</div>
+        <div class="row gap">
+          <button id="mOpen" class="link">Select open</button>
+          <button id="mClear" class="link">Clear</button>
+          <button id="mRefresh" class="link">Refresh</button>
+        </div>
+      </div>
+    </div>
+    <div id="mList" class="list"></div>
+    <div id="mMsg" class="empty"></div>
+  </section>
+
+  <!-- LOG -->
+  <section id="tab-log" class="tab">
+    <div class="card tight">
+      <div class="row between">
+        <div class="label">Engine log</div>
+        <button id="logClear" class="link">Clear</button>
+      </div>
+      <pre id="logBox" class="log"></pre>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section id="tab-settings" class="tab">
+    <h2 class="sec">Appearance</h2>
+    <div class="card">
+      <div class="label">Theme</div>
+      <div class="seg" id="themeSeg">
+        <button data-v="system">System</button><button data-v="light">Light</button><button data-v="dark">Dark</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Quotex account</h2>
+    <div class="card">
+      <div class="muted small">Log in once inside the app. The session is kept on this phone. Choose Demo or Live
+        in the Quotex page itself.</div>
+      <div class="row gap" style="margin-top:12px">
+        <button id="btnLogin2" class="btn primary grow">Log in to Quotex</button>
+        <button id="btnDisc" class="btn grow">Disconnect</button>
+      </div>
+    </div>
+
+    <h2 class="sec">Signal engine</h2>
+    <div class="card form">
+      <label class="field"><span>History candles</span>
+        <input id="f_n" class="input" inputmode="numeric" autocomplete="off"><em id="e_n"></em></label>
+      <label class="field"><span>Owner name</span>
+        <input id="f_owner" class="input" autocomplete="off"><em id="e_owner"></em></label>
+      <label class="field"><span>Timezone</span>
+        <input id="f_tz" class="input" placeholder="+6 or UTC+05:30" autocomplete="off"><em id="e_tz_min"></em></label>
+      <label class="field"><span>MTG steps</span>
+        <div class="seg" id="f_mtg"><button data-v="0">None</button><button data-v="1">1</button><button data-v="2">2</button><button data-v="3">3</button></div>
+        <em id="e_mtg"></em></label>
+      <div class="muted small">Settings apply to the next session you start.</div>
+    </div>
+
+    <h2 class="sec">Telegram</h2>
+    <div class="card form">
+      <div class="row between switchrow"><span>Send signals to Telegram</span>
+        <button id="s_tg" class="switch" role="switch" aria-checked="false"><i></i></button></div><em id="e_tg_on"></em>
+      <label class="field"><span>Bot token</span>
+        <input id="f_tok" class="input mono" type="password" autocomplete="off" spellcheck="false" placeholder="123456:ABC..."><em id="e_tg_token"></em></label>
+      <label class="field"><span>Chat ID or @channel</span>
+        <input id="f_chat" class="input mono" autocomplete="off" spellcheck="false" placeholder="-100... or @name"><em id="e_tg_chat"></em></label>
+      <div class="row between switchrow"><span>Chart image with every signal</span>
+        <button id="s_sig" class="switch" role="switch" aria-checked="false"><i></i></button></div>
+      <div class="row between switchrow"><span>Chart image with every result</span>
+        <button id="s_res" class="switch" role="switch" aria-checked="false"><i></i></button></div>
+      <div class="row gap" style="margin-top:6px">
+        <button id="btnTgTest" class="btn grow">Test Telegram</button>
+        <button id="btnChartTest" class="btn grow">Test chart image</button>
+      </div>
+      <div id="testMsg" class="alert hidden"></div>
+      <img id="testImg" class="testimg hidden" alt="Chart test">
+      <div id="rendererNote" class="muted small"></div>
+    </div>
+
+    <h2 class="sec">App</h2>
+    <div class="card">
+      <div class="muted small">For signals while the screen is off, allow background running. The app keeps a
+        notification while it works. Use Exit when you are done.</div>
+      <div class="row gap" style="margin-top:12px">
+        <button id="btnBg" class="btn grow">Allow background</button>
+        <button id="btnExit" class="btn danger grow">Exit app</button>
+      </div>
+    </div>
+
+    <h2 class="sec">About</h2>
+    <div class="card muted small" id="about"></div>
+  </section>
+</main>
+
+<nav class="tabs" id="tabs">
+  <button data-t="home" class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
+  <button data-t="markets"><svg viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/></svg><span>Markets</span></button>
+  <button data-t="log"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 9h8M8 13h8M8 17h5"/></svg><span>Log</span></button>
+  <button data-t="settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10l2 2M19 5l-2 2M7 17l-2 2"/></svg><span>Settings</span></button>
+</nav>
+<div id="toast" class="toast hidden"></div>
+<script src="/app.js"></script>
+</body>
+</html>
